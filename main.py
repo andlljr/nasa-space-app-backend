@@ -1,11 +1,21 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 from services.gldas_fetcher import get_history_json
 from services.stats_engine import compute_weather_stats
 from services.ai_summary import summarize_weather
 
 app = FastAPI(title="Weather Prediction API")
+
+# 🚀 Libera CORS (para testes — ajuste em produção)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class PredictionRequest(BaseModel):
     lat: float
